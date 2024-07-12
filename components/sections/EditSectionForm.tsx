@@ -25,6 +25,7 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { ArrowLeft, Trash } from "lucide-react"
 import ResourceForm from "./ResourceForm"
+import Delete from "@/components/custom/Delete"
 
 const formSchema = z.object({
     title: z.string().min(2, {
@@ -80,7 +81,7 @@ const EditSectionForm = ({ section, courseId, isCompleted }: EditSectionFormProp
 
                 <div className="flex gap-4 items-start">
                     <Button variant="outline">Publish</Button>
-                    <Button><Trash className="h-4 w-4" /></Button>
+                    <Delete item="section" courseId={courseId} sectionId={section.id}/>
                 </div>
             </div>
             <h1 className="text-xl font-bold">Edit Section</h1>
