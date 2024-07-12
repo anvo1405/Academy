@@ -1,7 +1,12 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+import Mux from "@mux/mux-node";
 
+const { video } = new Mux({
+  tokenId: process.env.MUX_TOKEN_ID,
+  tokenSecret: process.env.MUX_TOKEN_SECRET,
+});
 
 export const POST = async (
   req: NextRequest,
@@ -38,6 +43,37 @@ export const POST = async (
         ...values,
       },
     });
+
+    if (values.videoUrl) {
+      const existingMuxData = await db.muxData.findFirst({
+        where: {
+          sectionId,
+        },
+      });
+
+      if (existingMuxData) {
+        await video.assets.delete(existingMuxData.assetId);
+        await db.muxData.delete({
+          where: {
+            id: existingMuxData.id,
+          },
+        });
+      }
+
+      const asset = await video.assets.create({
+        input: values.videoUrl,
+        playback_policy: ["public"],
+        test: false,
+      });
+
+      await db.muxData.create({
+        data: {
+          assetId: asset.id,
+          playbackId: asset.playback_ids?.[0]?.id,
+          sectionId,
+        },
+      });
+    }
 
     return NextResponse.json(section, { status: 200 });
   } catch (err) {
@@ -78,6 +114,23 @@ export const DELETE = async (req: NextRequest,
 
     if (!section) {
       return new NextResponse("Section Not Found", { status: 404 });
+    }
+
+    if (section.videoUrl) {
+      const existingMuxData = await db.muxData.findFirst({
+        where: {
+          sectionId,
+        },
+      });
+
+      if (existingMuxData) {
+        await video.assets.delete(existingMuxData.assetId);
+        await db.muxData.delete({
+          where: {
+            id: existingMuxData.id,
+          },
+        });
+      }
     }
 
     await db.section.delete({

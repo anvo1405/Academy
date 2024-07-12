@@ -8,9 +8,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import axios from "axios";
-import { Loader2, Trash } from "lucide-react"
+import { Loader2, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -22,11 +22,10 @@ interface DeleteProps {
     sectionId?: string;
 }
 
-
-
 const Delete = ({ item, courseId, sectionId }: DeleteProps) => {
     const router = useRouter();
     const [isDeleting, setIsDeleting] = useState(false);
+
     const onDelete = async () => {
         try {
             setIsDeleting(true);
@@ -45,23 +44,29 @@ const Delete = ({ item, courseId, sectionId }: DeleteProps) => {
             router.refresh();
             toast.success(`${item} deleted`);
         } catch (err) {
-            toast.error("Something went wrong!");
-            console.log(`Failed to delete the ${item}`);
+            toast.error(`Something went wrong!`);
+            console.log(`Failed to delete the ${item}`, err);
         }
-    }
+    };
+
     return (
         <AlertDialog>
             <AlertDialogTrigger>
                 <Button>
-                    {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
+                    {isDeleting ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                        <Trash className="h-4 w-4" />
+                    )}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle className="text-red-500">Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle className="text-red-500">
+                        Are you absolutely sure?
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete your
-                        {item}
+                        This action cannot be undone. This will permanently delete your {item}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -70,8 +75,7 @@ const Delete = ({ item, courseId, sectionId }: DeleteProps) => {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+    );
+};
 
-    )
-}
-
-export default Delete
+export default Delete;
