@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -196,6 +195,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                                         value={field.value || ""}
                                         onChange={(url) => field.onChange(url)}
                                         endpoint="courseBanner"
+                                        page="Edit Course"
                                     />
                                 </FormControl>
                                 <FormMessage />

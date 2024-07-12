@@ -77,6 +77,7 @@ const SectionList = ({ items, onReorder, onEdit }: SectionListProps) => {
                                         </div>
                                         {section.title}
                                         <div className="ml-auto">
+                                            <Pencil className="h-4 w-4 cursor-pointer hover:text-[#FDAB04]" onClick={() => onEdit(section.id)} />
                                         </div>
                                     </div>
                                 )}
