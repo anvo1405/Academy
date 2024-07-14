@@ -24,6 +24,7 @@ import { usePathname, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { Trash } from "lucide-react"
 import Delete from "../custom/Delete"
+import PublishButton from "../custom/PublishButton"
 
 const formSchema = z.object({
     title: z.string().min(2, {
@@ -50,10 +51,11 @@ interface EditCoursesFormProps {
         subCategories: { label: string, value: string }[]
     }[]
     levels: { label: string; value: string }[];
+    isCompleted: boolean;
 }
 
 
-const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) => {
+const EditCoursesForm = ({ course, categories, levels, isCompleted }: EditCoursesFormProps) => {
     const router = useRouter();
     const pathname = usePathname();
     // 1. Define your form.
@@ -99,7 +101,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                 </div>
 
                 <div className="flex gap-4 items-start">
-                    <Button variant="outline">Publish</Button>
+                    <PublishButton disabled={!isCompleted} courseId={course.id} isPublished={course.isPublished} page="Course"/>
                     <Delete item="course" courseId={course.id}/>
                 </div>
             </div>
@@ -110,7 +112,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                         name="title"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Title</FormLabel>
+                                <FormLabel>Title <span className="text-red-500">*</span></FormLabel>
                                 <FormControl>
                                     <Input placeholder="Ex: Web Development for Beginners" {...field} />
                                 </FormControl>
@@ -136,7 +138,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                         name="description"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Description</FormLabel>
+                                <FormLabel>Description <span className="text-red-500">*</span></FormLabel>
                                 <FormControl>
                                     <RichEditor placeholder="What is this course about?" {...field} />
                                 </FormControl>
@@ -150,7 +152,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                             name="categoryId"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Category</FormLabel>
+                                    <FormLabel>Category <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <ComboBox options={categories} {...field} />
                                     </FormControl>
@@ -163,7 +165,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                             name="subCategoryId"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Subcategory</FormLabel>
+                                    <FormLabel>Subcategory <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <ComboBox options={categories.find((category) => category.value === form.watch("categoryId"))?.subCategories || []} {...field} />
                                     </FormControl>
@@ -176,7 +178,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                             name="levelId"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Level</FormLabel>
+                                    <FormLabel>Level <span className="text-red-500">*</span></FormLabel>
                                     <FormControl>
                                         <ComboBox options={levels} {...field} />
                                     </FormControl>
@@ -190,7 +192,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                         name="imageUrl"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                                <FormLabel>Course Banner</FormLabel>
+                                <FormLabel>Course Banner <span className="text-red-500">*</span></FormLabel>
                                 <FormControl>
                                     <FileUpload
                                         value={field.value || ""}
@@ -208,7 +210,7 @@ const EditCoursesForm = ({ course, categories, levels }: EditCoursesFormProps) =
                         name="price"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                                <FormLabel>Price</FormLabel>
+                                <FormLabel>Price <span className="text-red-500">*</span></FormLabel>
                                 <FormControl>
                                     <Input
                                         type="number"
