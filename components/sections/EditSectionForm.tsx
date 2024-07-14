@@ -27,6 +27,7 @@ import FileUpload from "../custom/FileUpload";
 import { Switch } from "@/components/ui/switch";
 import ResourceForm from "@/components/sections/ResourceForm";
 import Delete from "@/components/custom/Delete";
+import PublishButton from "@/components/custom/PublishButton";
 
 const formSchema = z.object({
     title: z.string().min(2, {
@@ -89,7 +90,7 @@ const EditSectionForm = ({
                 </Link>
 
                 <div className="flex gap-5 items-start">
-                    <Button variant="outline">Publish</Button>
+                    <PublishButton disabled={!isCompleted} courseId={courseId} sectionId={section.id} isPublished={section.isPublished} page={"Section"}/>
                     <Delete item="section" courseId={courseId} sectionId={section.id} />
                 </div>
             </div>
