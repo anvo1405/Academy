@@ -28,18 +28,20 @@ const Topbar = () => {
     return (
         <div className="flex justify-between items-center p-4">
             <Link href="/">
-                <Image src="/logo.png" height={100} width={200} alt="logo"></Image>
+                <h1 className="scroll-m-20 text-3xl font-bold tracking-tight lg:text-4xl text-[#FDA804]">
+                    VHA-Academy
+                </h1>
             </Link>
             <div className=" max-md:hidden w-[400px] rounded-full flex">
                 <input
                     className="flex-grow bg-[#FEFBEB] rounded-l-full border-none outline-none text-sm pl-4 py-3"
-                    placeholder="Search for courses" 
+                    placeholder="Search for courses"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
-                    />
+                />
                 <button className="bg-[#FDA804] rounded-r-full border-none outline-none cursor-pointer px-4 py-3 hover:bg-[#FDAB04]/80"
-                disabled={searchInput.trim() === ""}
-                onClick={handleSearch}
+                    disabled={searchInput.trim() === ""}
+                    onClick={handleSearch}
                 >
                     <Search className="h-4 w-4" />
                 </button>
