@@ -34,21 +34,6 @@ const SectionsDetails = ({
 
         <div className="flex gap-4">
           <SectionMenu course={course} />
-          {/* {!purchase ? (
-            <Button onClick={buyCourse}>
-              {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <p>Buy this course</p>
-              )}
-            </Button>
-          ) : (
-            <ProgressButton
-              courseId={course.id}
-              sectionId={section.id}
-              isCompleted={!!progress?.isCompleted}
-            /> // !! converts falsy values to boolean false
-          )} */}
         </div>
       </div>
 
