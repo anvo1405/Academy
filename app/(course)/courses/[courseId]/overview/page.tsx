@@ -30,11 +30,7 @@ const CourseOverview = async ({ params }: { params: { courseId: string } }) => {
   let level;
 
   if (course.levelId) {
-    level = await db.level.findUnique({
-      where: {
-        id: course.levelId,
-      },
-    });
+    level = course.levelId ? await db.level.findUnique({ where: { id: course.levelId } }) : null;
   }
 
   return (
